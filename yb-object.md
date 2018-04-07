@@ -2,7 +2,7 @@
 
 Оригинал: [http://www.yegor256.com/2016/07/14/who-is-object.html](http://www.yegor256.com/2016/07/14/who-is-object.html)
 
-# Объект, это кто? (Кто такой объект?)
+# Объект, это кто?
 
 keywords: ООП, OOP, object, объект, объектно ориентированное программирование
 
