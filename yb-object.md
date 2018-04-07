@@ -1,5 +1,7 @@
 # Объект, это кто? (Кто такой объект?)
 
+keywords: ООП, OOP, object, объект, объектно ориентированное программирование
+
 Перевод поста _Егора Бугаенко_ **Who is an object?** от 14.07.2016
 
 Оригинал: [http://www.yegor256.com/2016/07/14/who-is-object.html](http://www.yegor256.com/2016/07/14/who-is-object.html)
