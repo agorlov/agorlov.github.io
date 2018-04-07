@@ -12,7 +12,7 @@
 поэтому они примитивны и механистичны. Я хочу предложить определение,
 лишенное данных недостатков.
 
-![](/yb-files/jackass-the-movie.jpg)
+![](/jackass-the-movie.jpg)
 
 Что такое объект? Я провел небольшое исследование и вот, что я нашел:
 
@@ -108,7 +108,7 @@ Car c = new Car(v, e);
 к данным.
 
 
-<div style="width: 96px; float: right;"><a href="http://amzn.to/266oJr4"><img src="/f/1/141/book-object-thinking.jpg" style="width:96px;max-width:100%;" alt="badge"></a></div>
+<div style="width: 96px; float: right;"><a href="http://amzn.to/266oJr4"><img src="/book-object-thinking.jpg" style="width:96px;max-width:100%;" alt="badge"></a></div>
 
 Если мы будем думать об объекте, как о **представителе данных**, а не
 **содержащем контейнере**, мы не захотим получать их как можно 
