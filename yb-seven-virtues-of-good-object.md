@@ -55,10 +55,19 @@ photo = File.new('/tmp/photo.png')
 puts photo.width()
 ```
 
-In this example, I'm asking File to construct a new object photo, which will be a representative of a real file on disk. You may say that a file is also something virtual and exists only when the computer is turned on. I would agree and refine the definition of "real life" as follows: It is everything that exists aside from the scope of the program the object lives in. The disk file is outside the scope of our program; that's why it is perfectly correct to create its representative inside the program.
+В этом примере, я прошу ``File`` создать новый объект ``photo``, который будет представлять реальный файл на диске. Вы можете 
+сказать, что файл это что-то не настоящее и существует только когда компьютер включен. Я соглашусь и уточню определение 
+"реальной жизни": это все, что существует за рамками программы в которой живет объект. Файл на диске находится за рамками нашей
+программы; поэтому совершенно правильно создать его представителя в программе.
 
-A controller, a parser, a filter, a validator, a service locator, a singleton, or a factory are not good objects (yes, most GoF patterns are anti-patterns!). They don't exist apart from your software, in real life. They are invented just to tie other objects together. They are artificial and fake creatures. They don't represent anyone. Seriously, an XML parser—who does it represent? Nobody.
+Контроллер, парсер, фильтр, валидатор, сервис локатор, синглтон или фабрика примеры плохих объектов (да, большинство GoF шаблонов являются анти-патернами!). Они не существуют в реальной жизни, за рамками вашей программы. Они придуманы только для того чтобы
+связать вместе другие объекты. Они искуственные и поддельные существа. Они ни кого не представляют. Серьезно, кого представляет
+XML-парсер? Никого.
 
-Some of them may become good if they change their names; others can never excuse their existence. For example, that XML parser can be renamed to "parseable XML" and start to represent an XML document that exists outside of our scope.
+Некоторые из них могут стать хорошими если их переименовать; другие никогда не смогут оправдать свое существование. Например, этот
+XML parser, может быть переименован в "parseable XML" и начать представлять XML-документ, который существует за пределами нашей
+области.
 
-Always ask yourself, "What is the real-life entity behind my object?" If you can't find an answer, start thinking about refactoring.
+Всегда задавайте себе вопрос, "Какая реальная сущность стоит за моим объектом?" Если вы не можете ответить, начинайте думать о рефакторинге.
+
+
