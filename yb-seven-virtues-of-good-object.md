@@ -71,3 +71,27 @@ XML parser, может быть переименован в "parseable XML" и �
 Всегда задавайте себе вопрос, "Какая реальная сущность стоит за моим объектом?" Если вы не можете ответить, начинайте думать о рефакторинге.
 
 
+## 2. Он работает по договору
+
+badge
+
+Хороший объект всегда работает по договорам. Его нанимают не за его личные заслуги, а потому, что он подчиняется договору.
+С другой стороны, нанимая объект, мы не должны дискриминировать и ожидать, что это будет определенный объект определенного
+класса. Мы должны ожидать что любой объект будет выполнять то, что говорится в договоре.
+Пока объект делает то, что нам нужно, нас не должен интересовать его класс происхождения, его пол или его религия.
+
+Например, мне нежуно показать фото на экране. Я хочу, чтобы это фото читалось из файла в PNG формате. Я подписываю
+объект из класса DataFile и прошу его дать мне бинарный контент этого изображения.
+
+For example, I need to show a photo on the screen. I want that photo to be read from a file in PNG format. I'm contracting an object from class DataFile and asking him to give me the binary content of that image.
+
+But wait, do I care where exactly the content will come from—the file on disk, or an HTTP request, or maybe a document in Dropbox? Actually, I don't. All I care about is that some object gives me a byte array with PNG content. So my contract would look like this:
+
+interface Binary {
+  byte[] read();
+}
+Now, any object from any class (not just DataFile) can work for me. All he has to do, in order to be eligible, is to obey the contract—by implementing the interface Binary.
+
+The rule here is simple: every public method in a good object should implement his counterpart from an interface. If your object has public methods that are not inherited from any interface, he is badly designed.
+
+There are two practical reasons for this. First, an object working without a contract is impossible to mock in a unit test. Second, a contract-less object is impossible to extend via decoration.
