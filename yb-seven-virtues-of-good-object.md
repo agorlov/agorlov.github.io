@@ -80,18 +80,99 @@ badge
 класса. Мы должны ожидать что любой объект будет выполнять то, что говорится в договоре.
 Пока объект делает то, что нам нужно, нас не должен интересовать его класс происхождения, его пол или его религия.
 
-Например, мне нежуно показать фото на экране. Я хочу, чтобы это фото читалось из файла в PNG формате. Я подписываю
-объект из класса DataFile и прошу его дать мне бинарный контент этого изображения.
+Например, мне нежуно показать фото на экране. Я хочу, чтобы это фото читалось из файла в PNG формате. Я нанимаю
+объект класса DataFile и прошу его дать мне бинарный контент этого изображения.
 
-For example, I need to show a photo on the screen. I want that photo to be read from a file in PNG format. I'm contracting an object from class DataFile and asking him to give me the binary content of that image.
+Но постойте, важно ли для меня откуда будет взят контент, будет ли это файл на диске или HTTP-запрос или может быть документ из Dropbox? Мне нет. Все что мне нужно, это чтобы какой-то объект дал мне массив байт PNG-файла. Мой договор будет выглядеть так:
 
-But wait, do I care where exactly the content will come from—the file on disk, or an HTTP request, or maybe a document in Dropbox? Actually, I don't. All I care about is that some object gives me a byte array with PNG content. So my contract would look like this:
-
+```
 interface Binary {
   byte[] read();
 }
-Now, any object from any class (not just DataFile) can work for me. All he has to do, in order to be eligible, is to obey the contract—by implementing the interface Binary.
+```
 
-The rule here is simple: every public method in a good object should implement his counterpart from an interface. If your object has public methods that are not inherited from any interface, he is badly designed.
+Теперь, любой объект любого класса (не только DataFile) может работать на меня. Все что он должен делать, это следовать договору --- реализуя интерфейс ``Binary``.
 
-There are two practical reasons for this. First, an object working without a contract is impossible to mock in a unit test. Second, a contract-less object is impossible to extend via decoration.
+Простое правило: каждый публичный метод в правильном объекте реализует таковой из интерфейса. Если в вашем объекте есть публичные методы отстутствующие в интерфейсах, он плохо спроектирован.
+
+Есть две практические причины для этого. Первая, объект работающий без договора невозможно мокнуть в юнит-тесте.
+Вторая, без интерфейсый объект невозможно расширить декоратором.
+
+## 3. Он уникален
+
+Хороший объект должен всегда инкапсулировать что-то, чтобы быть уникальным. Если инкапсулировать нечего, объект может
+иметь идентичных колонов, что плохо. Вот пример плохого объекта, у которого могут быть клоны:
+
+```
+class HTTPStatus implements Status {
+  private URL page = new URL("http://www.google.com");
+  @Override
+  public int read() throws IOException {
+    return HttpURLConnection.class.cast(
+      this.page.openConnection()
+    ).getResponseCode();
+  }
+}
+```
+
+Я могу создать несколько экземпляров класса HTTPStatus, и все они будут равны друг другу:
+
+```
+first = new HTTPStatus();
+second = new HTTPStatus();
+assert first.equals(second);
+```
+
+Очевидно, что на основе классов-утилит, в которых есть только статические методы, нелья создать хорошие объекты.
+Вобщем, классы-утилиты не содержат хороших качеств упомянутых в этой статье и их даже нельзя назвать "классами"
+Они просто ужасные нарушители объектной парадигмы и существуют в современных объектных языках только потому, что их создатели включили статические методы.
+
+## 4. Он Неизменный (Immutable)
+
+Хороший объект никогда не меняет свое внутреннее состояние. Помните, объект это представитель реальной сущности, и 
+эта сущность должна оставаться неизменной весь свой жизненный цикл объекта. Другими словами объект не должен изменять
+тому, кого представляет. Он не должен менять владельцев, никогда. :)
+
+Имейте в виду, что неизменяемость не означает, что все методы всегда возвращают одинаковые значения.
+
+Вместо этого хороший неизменяемый объект очень динамичен. Однако, он никогда не меняет свое внутреннего состояния. Например:
+
+```
+@Immutable
+final class HTTPStatus implements Status {
+  private URL page;
+  public HTTPStatus(URL url) {
+    this.page = url;
+  }
+  @Override
+  public int read() throws IOException {
+    return HttpURLConnection.class.cast(
+      this.page.openConnection()
+    ).getResponseCode();
+  }
+}
+```
+Несмотря на то, что метод read() может возвращать различные значения, объект является неизменяемым. Он указывает
+на определенную веб-страницу и никогда не будет указывать куда-то еще. Он не изменит свое внутреннее состояние, и
+никогда не предаст URL который он представляет.
+
+Почему неизменность это добро? Эта статья объясняет в деталях: [Объекты должны быть неизменными](http://www.yegor256.com/2014/06/09/objects-should-be-immutable.html).
+
+В двух словах, неизменяемые объекты лучше, потому что:
+
+- Неизменяемые объекты проще создавать, тестировать и использовать.
+- Истинно-неизменяемые объекты всегда [потокобезопасны](http://www.yegor256.com/2017/01/17/synchronized-decorators.html) (thread-safe).
+- Они помогают избегать [temporal coupling](http://www.yegor256.com/2015/12/08/temporal-coupling-between-method-calls.html)
+- Их использование гарантирует вас от побочных эффектов
+- Они всегда атомарны в отказе
+- They always have failure atomicity.
+- Их очень просто закешировать.
+- Они предотвращают NULL-ссылки.
+
+Конечно, хороший объект не имеет сеттеров, которые могут менят его состояние и спровоцировать его изменить URL.
+Другими словами, добавлять метод setURL() в HTTPStatus будет страшной ошибкой.
+
+Помимо прочего, неизменные объекты будет способствовать более качественному дизайну: связанному, единому и понятному.
+
+
+## 5...
