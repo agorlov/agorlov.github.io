@@ -127,7 +127,7 @@ assert first.equals(second);
 Вобщем, классы-утилиты не содержат хороших качеств упомянутых в этой статье и их даже нельзя назвать "классами"
 Они просто ужасные нарушители объектной парадигмы и существуют в современных объектных языках только потому, что их создатели включили статические методы.
 
-## 4. Он Неизменный (Immutable)
+## 4. Он неизменяемый (Immutable)
 
 Хороший объект никогда не меняет свое внутреннее состояние. Помните, объект это представитель реальной сущности, и 
 эта сущность должна оставаться неизменной весь свой жизненный цикл объекта. Другими словами объект не должен изменять
@@ -174,7 +174,7 @@ final class HTTPStatus implements Status {
 Помимо прочего, неизменяемые объекты будет повысят качество дизайна, добавят такие качества: стыкуемость (cohesive), единство (solid) и добавят легкость восприятия кода.
 
 
-## 5. В классе объекта не дложно быть ничего статического
+## 5. Он не содержит ничего статического
 
 Статический метод реализует поведение класса, а не объекта. Предположим у нас есть класс ``File``, и метод ``size()`` у его потомков:
 
@@ -221,8 +221,10 @@ class File {
 Всякий раз, когда вы видите ``public static`` метод, сразу же переписывайте. 
 Я даже не хочу упоминать, насколько ужасны статические (или глобальные) переменные. Я думаю это очевидно.
 
-6. His Name Is Not a Job Title
+### 6. Его имя это не должность
+
 badge
+
 The name of an object should tell us what this object is, not what it does, just like we name objects in real life: book instead of page aggregator, cup instead of water holder, T-shirt instead of body dresser. There are exceptions, of course, like printer or computer, but they were invented just recently and by those who didn't read this article. :)
 
 For example, these names tell us who their owners are: an apple, a file, a series of HTTP requests, a socket, an XML document, a list of users, a regular expression, an integer, a PostgreSQL table, or Jeffrey Lebowski. A properly named object is always possible to draw as a small picture. Even a regular expression can be drawn.
