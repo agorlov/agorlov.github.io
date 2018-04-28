@@ -225,27 +225,45 @@ class File {
 
 badge
 
-The name of an object should tell us what this object is, not what it does, just like we name objects in real life: book instead of page aggregator, cup instead of water holder, T-shirt instead of body dresser. There are exceptions, of course, like printer or computer, but they were invented just recently and by those who didn't read this article. :)
+Имя объекта должно говорить нам, что это за объект, а не то что он делает, как мы называем объекты в реальной жизни:
+*книга* вместо "page agreagator", *чашка* вместо "water holder", *футблока* вместо "одеватель тела".
+Конечно есть исключения, такие как printer (дословно - печатальщик) или computer (дословно - вычислитель), но они были изобретены недавно и теми, кто не читал эту статью. :)
 
-For example, these names tell us who their owners are: an apple, a file, a series of HTTP requests, a socket, an XML document, a list of users, a regular expression, an integer, a PostgreSQL table, or Jeffrey Lebowski. A properly named object is always possible to draw as a small picture. Even a regular expression can be drawn.
+Например, эти имена говорят кому они принадлежат: яблоко (an apple), файл, серия HTTP-запросов, сокет, 
+XML-документ, список пользователей, регулярное выражение, целое число, PostgreSQL таблица или Джеффри Лебовски.
+Правильно названные объекты всегда можно нарисовать как небольшую картинку. Даже регулярное выражение.
+ 
 
-In the opposite, here is an example of names that tell us what their owners do: a file reader, a text parser, a URL validator, an XML printer, a service locator, a singleton, a script runner, or a Java programmer. Can you draw any of them? No, you can't. These names are not suitable for good objects. They are terrible names that lead to terrible design.
+Напротив, вот пример имен, которые говорят что их носители делают: a file reader (читатель файла), a text parser (парсер текста), a URL validator (проверяль URL-а), an XML printer, a service locator (обнаружитель услуги), a singleton (одиночка), a script runner (запускатель скрипта), или Java-прогаммист. Вы можете нарисовать кого нибудь из них? Нет, не можете. 
+Эти имена не подходяет для хороших объектов. Плохие имена всега ведут к плохому дизайну.
 
-In general, avoid names that end with "-er"—most of them are bad.
+В общем, избегайте имен которые заканчиваются на "-er" большинство из них плохие.
 
-"What is the alternative of a FileReader?" I hear you asking. What would be a better name? Let's see. We already have File, which is a representative of a real-world file on disk. This representative is not powerful enough for us, because he doesn't know how to read the content of the file. We want to create a more powerful one that will have that ability. What would we call him? Remember, the name should say what he is, not what he does. What is he? He is a file that has data; not just a file, like File, but a more sophisticated one, with data. So how about FileWithData or simply DataFile?
+"Какова же альтернатива для FileReader?" Я слышал, вы спросили. Какое имя будет лучше? Давайте посмотрим.
+У нас уже есть ``File`` который представляет реальный файл на диске. Этот представитель не достаточно
+функционален для нас, потому что он не знает, как считывать содержимое файла. Нам нужен представитель, 
+обладающий данной возможностью. Как же мы его назовем? Помните, имя должно говорить **кто он**, а не что 
+он делает. Кто он? Он это файл у кторого есть данные; не просто файл, как ``File``, а более сложный, с данными.
+Итак как насчет: ``FileWithData`` или просто ``DataFile``?
 
-The same logic should be applicable to all other names. Always think about what it is rather than what it does. Give your objects real, meaningful names instead of job titles.
+Аналогичная логика применима к любым другим именам. Всегда подумайте **что это** вместо **что делает**.
+Давайте вашим объектам реальные, значащие имена вместо должностей.
 
-More about this in Don't Create Objects That End With -ER.
+Узнать больше об этом в [Don't Create Objects That End With -ER.](http://www.yegor256.com/2015/03/09/objects-end-with-er.html)
 
-## 7. His Class Is Either Final or Abstract
+## 7. Его класс либо Final, либо Abstract
 
 badge
 
-A good object comes from either a final or abstract class. A final class is one that can't be extended via inheritance. An abstract class is one that can't have instances. Simply put, a class should either say, "You can never break me; I'm a black box for you" or "I'm broken already; fix me first and then use."
+Хороший объект происходит от final или от абстрактного класса. Final это такой класс, который нельзя расширить через наследование. Абстрактный это такой класс, который не имеет экземпляров. Проще говоря, класс должен сказать, 
+"Вы никогда не сломаете меня; я черный ящик для вас", либо "Я уже сломан; сначала поправьте меня и потом пользуйтесь."
 
-There is nothing in between. A final class is a black box that you can't modify by any means. He works as he works, and you either use him or throw him away. You can't create another class that will inherit his properties. This is not allowed because of that final modifier. The only way to extend such a final class is through decoration of his children. Let's say I have the class HTTPStatus (see above), and I don't like him. Well, I like him, but he's not powerful enough for me. I want him to throw an exception if HTTP status is over 400. I want his method, read(), to do more that it does now. A traditional way would be to extend the class and overwrite his method:
+Никаких исключений. Final-класс это черный ящик который вы не измените. Он работает так как работает, и вы либо используете
+его либо нет. Вы не можете создать другой класс, который унаследвует его свойства. Это запрещено с помощью модификатора ``final``. Единственный способ надстроить final-класс - через декорирование.
+
+Предположим у меня есть ``HTTPStatus`` (см. выше), и он мне не нравится. Ну ладно, нравится, но он не достаточно 
+функционален для меня. Я хочу, чтобы он бросал исключение если HTTP-статус больше 400. Я хочу, чтобы его метод,
+read(), делал больше чем делает сейчас. Традиционный способ был бы расширить класс и переписать метод:
 
 ```
 class OnlyValidStatus extends HTTPStatus {
@@ -263,9 +281,12 @@ class OnlyValidStatus extends HTTPStatus {
 }
 ```
 
-Why is this wrong? It is very wrong because we risk breaking the logic of the entire parent class by overriding one of his methods. Remember, once we override the method read() in the child class, all methods from the parent class start to use his new version. We're literally injecting a new "piece of implementation" right into the class. Philosophically speaking, this is an offense.
+В чем тут ошибка? Это совсем неправильно, потому что мы рискуем нарушить логику всего родительского класса, переопределив один из его методов. Помните, единожды переопределив метод ``read()`` в дочернем классе, все методы из родителя начинают
+использовать его новую версию. Мы буквально вводим новый "кусок реализации" прямо в класс. 
+С философской точки зрения, это преступление.
 
-On the other hand, to extend a final class, you have to treat him like a black box and decorate him with your own implementation (a.k.a. Decorator Pattern):
+С другой стороны, для расширения final-класса, вы должны принимать его как черный ящик и декорировать его 
+вашей собственной реализацией ([паттерн Декоратор](https://en.wikipedia.org/wiki/Decorator_pattern)):
 
 ```
 final class OnlyValidStatus implements Status {
@@ -283,12 +304,18 @@ final class OnlyValidStatus implements Status {
   }
 }
 ```
+Убедитесь, что этот класс реализует тотже интерфейс, что и основной: ``Status``. Экземпляр ``HTTPStatus`` передается
+в него через конструктор и инкапсулируется. Затем, каждый вызов будет перехватываться и обрабатываться другим способом,
+если это требуется. При таком дизайне, мы рассматриваем оригинальный объект как черный ящик и никогда не вмешиваемся
+в его внутренние дела.
 
-Make sure that this class is implementing the same interface as the original one: Status. The instance of HTTPStatus will be passed into him through the constructor and encapsulated. Then every call will be intercepted and implemented in a different way, if necessary. In this design, we treat the original object as a black box and never touch his internal logic.
+Если вы не используете ключевое слово ``final``, любой (включая вас) будет иметь возможность расширить класс и ..
+нарушить его :( Итак класс без ``final`` - плохой дизайн.
 
-If you don't use that final keyword, anyone (including yourself) will be able to extend the class and... offend him :( So a class without final is a bad design.
+Абстрактный класс это прямо противоположный случай - он говорит нам, что он не завершен и мы не можем им
+воспользоваться как есть. Нам нужно ввести нашу собственную реализацию в него, но только в тех местах, где
+он это позволяет. Эти места явно отмечены как ``абстрактные методы``. Например, наш ``HTTPStatus`` может выглядеть так:
 
-An abstract class is the exact opposite case—he tells us that he is incomplete and we can't use him "as is." We have to inject our custom implementation logic into him, but only into the places he allows us to touch. These places are explicitly marked as abstract methods. For example, our HTTPStatus may look like this:
 
 ```
 abstract class ValidatedHTTPStatus implements Status {
@@ -304,8 +331,12 @@ abstract class ValidatedHTTPStatus implements Status {
 }
 ```
 
-As you see, the class doesn't know how exactly to validate the HTTP code, and he expects us to inject that logic through inheritance and through overriding the method isValid(). We're not going to offend him with this inheritance, since he defended all other methods with final (pay attention to the modifiers of his methods). Thus, the class is ready for our offense and is perfectly guarded against it.
+Как вы видите, класс не знает как именно проверять HTTP-код, и он ожидает, что мы дополним эту логику через
+наследование и через переопределение метода ``isValid()``. Мы не собираемся оскорблять его наследованием, так как
+он защитил все остальные методы через ``final`` (обратите внимание на модификаторы его методов).
+Таким образом, класс готов к нашему нападению и защищен от него.
 
-To summarize, your class should either be final or abstract—nothing in between.
+Подводя итог, ваш класс должен быть либо ``final``, либо ``abstract`` (и никаким другим).
 
-Update (April 2017): If you also agree that implementation inheritance is evil, all your classes must be final.
+Дополнение (Апрель 2017): Если вы также согласны, что [наследование реализации](http://www.yegor256.com/2016/09/13/inheritance-is-procedural.html) (implementation inheritance) это зло, все ваши классы должны быть **final**.
+
