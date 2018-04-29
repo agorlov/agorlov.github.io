@@ -31,9 +31,6 @@
 Класс знает какими должны быть его дети и как они должны себя вести. Другими словами, он знает какие контракты они должны соблюдать.
 
 
-{% youtube WSgP85kr6eU %}
-
-
 <div style="width: 250px; float: right;">
 
 [![Why Getters-and-Setters Is An Anti-Pattern? (webinar #4); 1 July 2015.](https://img.youtube.com/vi/WSgP85kr6eU/0.jpg)](http://youtu.be/WSgP85kr6eU)
