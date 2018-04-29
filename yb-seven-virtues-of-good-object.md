@@ -237,7 +237,7 @@ class File {
 
 ### 6. Его имя это не должность
 
-<img src="http://www.yegor256.com/images/2014/11/good-object-4.png" width="200">
+<img src="http://www.yegor256.com/images/2014/11/good-object-4.png" align="right" width="200">
 
 Имя объекта должно говорить нам, **что это** за объект, а не то что он **делает**, как мы называем объекты в реальной жизни:
 книга вместо "page agreagator", чашка вместо "water holder", футболка вместо "одеватель тела".
