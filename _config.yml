@@ -1,5 +1,6 @@
 theme: jekyll-theme-minimal
-lang: ru
+site:
+  lang: ru
 plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
