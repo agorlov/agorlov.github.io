@@ -1,3 +1,25 @@
+---
+title: "Семь качеств хорошего объекта"
+date: 2018-04-29
+tags: ООП
+description: |
+  Как выглдяит правильно спроектированный обхект в объектно-ориентированном мире?
+  Как называется, ведет себя, какие имеет привычки, интерфейсы и кто его друзья?
+  Давайте посмотрим на это с другой стороны.
+keywords:
+  - объект в java
+  - объектно ориентированное программирование
+  - объектно ориентированная методология
+  - объектно ориентированные принципы
+  - концепции объектно ориентированного программирования
+translated:
+  - Japanese: http://tbd.kaitoy.xyz/2015/10/28/seven-virtues-of-good-object/
+  - Spanish: https://ixmanuel.gitbooks.io/pensando-en-objectos/content/
+social:
+  - reddit: https://www.reddit.com/r/programming/comments/2mw8mp/seven_virtues_of_a_good_object/
+book: elegant-objects-1 2.3
+---
+
 Перевод поста Егора Бугаенко **Seven Virtues of a Good Object** от 20.11.2014
 
 Оригинал: [https://www.yegor256.com/2014/11/20/seven-virtues-of-good-object.html](http://www.yegor256.com/2014/11/20/seven-virtues-of-good-object.html)
