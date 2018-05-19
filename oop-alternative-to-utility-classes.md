@@ -3,7 +3,7 @@ title: "ООП альтернатива классам-утилитам"
 date: 2014-05-05
 tags: ооп
 description: |
-  Классы-утилиты очень популряный паттерн в Java  и
+  Классы-утилиты очень популярный паттерн в Java  и
   в других объектно-ориентированных языках. Однако многие
   считают их ужасной практикой, которую следует избегать.
 keywords:
@@ -27,7 +27,7 @@ book: elegant-objects-1 3.2
 
 <!--more-->
 
-Такой спсоб проектирования очень популярен в мире Java (также как и C#, Ruby, и др.)
+Такой способ проектирования очень популярен в мире Java (также как и C#, Ruby, и др.)
 потому что классы-утилиты предоставляют общую функционально используемую повсюду.
 
 {% youtube psrp3TtaYYI %}
@@ -52,7 +52,7 @@ public class NumberUtils {
 Однако, в объектно-ориентированном мире, классы-утилиты считаются очень плохой 
 (некоторые даже могут сказать "ужасной") практикой.
 
-Было много дискуcсий на эту тему, подборка:
+Было много дискуссий на эту тему, подборка:
 
 [Are Helper Classes Evil?](http://blogs.msdn.com/b/nickmalik/archive/2005/09/06/461404.aspx) Nick Malik,
 [Why helper, singletons and utility classes are mostly bad](http://smart421.wordpress.com/2011/08/31/why-helper-singletons-and-utility-classes-are-mostly-bad-2/)  Simon Hart,
@@ -80,7 +80,7 @@ I'll show by example how these creatures can be replaced with proper
 
 ## Процедурный пример
 
-Скажем, например, вы хотите прочитать текстовый файл, разделить его на строки,
+Скажем, вы хотите прочитать текстовый файл, разделить его на строки,
 к каждой строке применить trim и потом сохранить результат в другом файле.
 Это можно сделать с помощью [`FileUtils`](http://commons.apache.org/proper/commons-io/javadocs/api-2.5/org/apache/commons/io/FileUtils.html)
 из Apache Commons:
@@ -129,20 +129,20 @@ public class Max implements Number {
 int max = NumberUtils.max(10, 5);
 ```
 
-Станет объктно-ориентированным:
+Станет объектно-ориентированным:
 
 ```java
 int max = new Max(10, 5).intValue();
 ```
 
-Масло масленное? Не совсем, просто продолжай читать...
+Масло масленое? Не совсем, просто продолжай читать...
 
-## Objects Instead of Data Structures
+## Объекты вместо структур данных
 
-This is how I would design the same file-transforming functionality as above but
-in an object-oriented manner:
+Вот так я бы спроектировал аналогичный приведенному выше функционал,
+преобразовывающий файл, но в объектно ориентированной форме:
 
-{% highlight java %}
+```java
 void transform(File in, File out) {
   Collection<String> src = new Trimmed(
     new FileLines(new UnicodeFile(in))
@@ -152,42 +152,41 @@ void transform(File in, File out) {
   );
   dest.addAll(src);
 }
-{% endhighlight %}
+```
 
-`FileLines` implements `Collection<String>` and encapsulates  all file reading
-and writing operations. An instance of `FileLines` behaves exactly as a
-collection of strings and hides all I/O operations. When we iterate it&mdash;a
-file is being read. When we `addAll()` to it&mdash;a file is being written.
+`FileLines` реализует `Collection<String>` и заключает в себе операции чтения 
+и записи. Экземпляр `FileLines` выглядит как коллекция строк и скрывает все
+операции ввода вывода. Когда мы итерируем его, файл считывается. Когда мы
+выполняем `addAll()` , файл записывается.
 
-`Trimmed` also implements `Collection<String>` and encapsulates a collection of
-strings ([Decorator pattern](http://en.wikipedia.org/wiki/Decorator_pattern)).
-Every time the next line is retrieved, it gets trimmed.
+`Trimmed` также реализует `Collection<String>` и инкапсулирует коллекцию строк ([Decorator pattern](http://en.wikipedia.org/wiki/Decorator_pattern)). Каждый раз, считыая следующую строку она обрезается.
 
-All classes taking
-participation in the snippet are rather small: `Trimmed`, `FileLines`, and
+Все учавствующие классы в примере довольно маленькие: Trimmed`, `FileLines`  и
 `UnicodeFile`.
-Each of them is responsible for its own single feature, thus following perfectly
-the [single responsibility principle](http://en.wikipedia.org/wiki/Single_responsibility_principle).
+
+Каждый из них отвечает за одну собственную фичу, полностью соответствуя [принципу единственной
+ответственности](http://en.wikipedia.org/wiki/Single_responsibility_principle).
 
 {% youtube D0dqC_3Bch8 %}
 
-On our side, as users of the library, this may be not so important, but for
-their developers it is an imperative.
-It is much easier to develop, maintain and unit-test class `FileLines` rather
-than using a `readLines()` method in a 80+ methods and 3000 lines utility class
-`FileUtils`. Seriously, look at
-[its source code](https://github.com/apache/commons-io/blob/commons-io-2.5/src/main/java/org/apache/commons/io/FileUtils.java).
+С нашей стороны, как пользователям библиотеки, это может быть не так важно, но
+для разработчиков это **императивно**. На много проще разрабатывать, поддерживать
+и писать юнит-тест для класса `FileLines` чем пользоваться методом `readLines()` 
+из класса утилиты `FileUtils` содержащей более 80 методов и 3000 строк кода.
+Серьезно, взгляните [на исходник](https://github.com/apache/commons-io/blob/commons-io-2.5/src/main/java/org/apache/commons/io/FileUtils.java).
 
-An object-oriented approach enables lazy execution. The `in` file is not read
-until its data is required. If we fail to open `out` due to some I/O error, the
-first file won't even be touched. The whole show starts only after we call `addAll()`.
+Объектный подход позволяет использовать отложенное выполнение (lazy execution).
+`in` файл не читается, до тех пор пока данные не потребуются. Если нам не удалось
+открыть `out` из за ошибки ввода/вывода, первый файл даже не будет тронут.
+Все начнется только после вызова `addAll()`.
 
-All lines in the second snippet, except the last one, instantiate and compose
-smaller objects into bigger ones. This object composition is rather cheap for
-the CPU since it doesn't cause any data transformations.
+Все строки во втором фрагменте, за исключением последней строки, создают
+композицию из небольших объектов в большие. Такая композиция на много 
+дешевле для процессора, т.к. она не вызывает каких-либо преобразований
+данных.
 
-Besides that, it is obvious that the second script runs in O(1) space, while the
-first one executes in O(n). This is the consequence of our procedural approach
-to data in the first script.
+Помимо этого, очевидно, что второй скрипт выполняется в O(1), тогда как
+первый выполняется в O(n). Это следствие нашего процедурного подхода к данным
+в первом скрипте.
 
-In an object-oriented world, there is no data; there are only objects and their behavior!
+В объектно-ориентированном мире, нет данных; там только объекты и их поведение!
