@@ -36,7 +36,7 @@ book: elegant-objects-1 3.2
 Такой способ проектирования очень популярен в мире Java (также как и C#, Ruby, и др.)
 потому что классы-утилиты предоставляют общую функционально используемую повсюду.
 
-<div style="width: 200px; float: right;">
+<div style="width: 200px;">
 <a href="http://youtu.be/psrp3TtaYYI"><img src="https://img.youtube.com/vi/psrp3TtaYYI/0.jpg" width="150" /></a>
 What's Wrong About Utility Classes? (webinar #6); 2 September 2015.
 </div>
@@ -83,9 +83,6 @@ public class NumberUtils {
 Предполагаю, что вы согласны с аргументами и хотите перестать использовать
 классы-утилиты, я покажу на примерах как можно заменить эти создания
 правильными [объектами](/yb-object.html).
-Assuming you agree with the arguments and want to stop using utility classes,
-I'll show by example how these creatures can be replaced with proper
-[objects](/yb-object.html).
 
 ## Процедурный пример
 
