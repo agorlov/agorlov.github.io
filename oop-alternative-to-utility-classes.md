@@ -19,6 +19,12 @@ translated:
 book: elegant-objects-1 3.2
 ---
 
+Перевод поста Егора Бугаенко **OOP Alternative to Utility Classes** от 05.05.2014
+
+Оригинал: [https://www.yegor256.com/2014/05/05/oop-alternative-to-utility-classes.html](https://www.yegor256.com/2014/05/05/oop-alternative-to-utility-classes.html)
+
+# Объектная альтернатива классам-утилитам
+
 Класс-утилита (или классы-хелперы helper-class) это "структура" которая содержит
 только статические методы и не инкапсулирет состояния. `StringUtils`, `IoUtils`,
 `FileUtils` из [Apache Commons](http://commons.apache.org/); `Iterables` и `Iterators` из
@@ -30,7 +36,10 @@ book: elegant-objects-1 3.2
 Такой способ проектирования очень популярен в мире Java (также как и C#, Ruby, и др.)
 потому что классы-утилиты предоставляют общую функционально используемую повсюду.
 
-{% youtube psrp3TtaYYI %}
+<div style="width: 200px; float: right;">
+<a href="http://youtu.be/psrp3TtaYYI"><img src="https://img.youtube.com/vi/psrp3TtaYYI/0.jpg" width="150" /></a>
+What's Wrong About Utility Classes? (webinar #6); 2 September 2015.
+</div>
 
 Мы хотим следовать [принципу DRY](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
 и избегать дублирования. Поэтому, мы помещаем общие блоки кода в классы-утилиты и 
