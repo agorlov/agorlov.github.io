@@ -176,7 +176,10 @@ void transform(File in, File out) {
 Каждый из них отвечает за одну собственную фичу, полностью соответствуя [принципу единственной
 ответственности](http://en.wikipedia.org/wiki/Single_responsibility_principle).
 
-{% youtube D0dqC_3Bch8 %}
+<div style="width: 200px; float: right;">
+<a href="http://youtu.be/D0dqC_3Bch8"><img src="https://img.youtube.com/vi/D0dqC_3Bch8/0.jpg" width="150" /></a>
+Objects vs. Static methods (webinar #1); 8 April 2015.
+</div>
 
 С нашей стороны, как пользователям библиотеки, это может быть не так важно, но
 для разработчиков это **императивно**. На много проще разрабатывать, поддерживать
