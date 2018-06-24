@@ -62,11 +62,35 @@ keywords:
 ## Пример
 
 
+## Патерны
+
+### Декоратор 
+
+Наращивает или видоимзеняет возможности базового объекта.
+
+### Оболочка (Envelope)
+
+Содединяет несколько объектов в группу.
+
+### Отложенная загрузка (Lazy Loading)
+
+Позволяет избавиться от исполняемого кода в конструкторах
+
+### Smart-объекты
+
+Дополняют функционал объекта.
+
+
+## Что такое хорошо и что такое плохо?
+
+С точки зрения описываемого подхода:
+
+**Плохо**: null, static, extends, trait, singleton, new вне конструктора
+
+**Хорошо**: interface, immutable, final, class
+
 
 ## Источники
 
-- Object Thinking by David West
-
-<iframe type="text/html" width="336" height="550" frameborder="0" allowfullscreen style="max-width:100%" src="https://read.amazon.com/kp/card?asin=B00JDMPOKM&preview=inline&linkCode=kpe&ref_=cm_sw_r_kb_dp_GG2lBbQ6SRBHK&tag=agdp-20" ></iframe>
-
+- [Object Thinking by David West](https://read.amazon.com/kp/embed?asin=B00JDMPOKM&preview=newtab&linkCode=kpe&ref_=cm_sw_r_kb_dp_GG2lBbQ6SRBHK&tag=agdp-20)
 - [Yegor Bugaenko Blog](https://www.yegor256.com/)
