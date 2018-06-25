@@ -61,9 +61,134 @@ keywords:
 - программа может иметь меньшую производительность;
 - подход не привычен для большинства программистов.
   
-## Пример
+## Пример набора объектов 
 
-@to be done
+Набор объектов представляющих ``Пользователя`` в программе.
+Все они реализуют интерфейс ``User``.
+
+Интерфейс:
+
+```php
+/**
+ * Пользователь.
+ */
+interface User
+{
+    /**
+     * Информация о пользователе
+     *
+     * @return array
+     */
+    public function info(): array;
+}
+```
+
+Базовая реализация:
+```php
+/**
+ * Пользователь по user.id
+ */
+class UserStd implements User
+{
+    private $db;
+    private $userId;
+
+    public function __construct($userId, $db = null)
+    {
+        $this->userId = $userId;
+        $this->db = null === $db ? getDB() : $db;
+    }
+
+
+    /**
+     * Информация пользователя
+     *
+     * @return array $info
+     */
+    public function info(): array
+    {
+        $info = $this->db->query(
+            "SELECT * FROM users WHERE id=" . $this->db->quote($this->userId)
+        )->fetch();
+
+        if ($info === false) {
+            throw new \Exception("Не существует пользователя с id = " . $this->userId);
+        }
+
+        return $info;
+    }
+}
+```
+
+Группирующая оболочка:
+```php
+/**
+ * Пользователь - обертка
+ */
+class UserWrap implements User
+{
+    private $orig;
+
+    /**
+     * Конструктор.
+     *
+     * @param User|callable
+     */
+    public function __construct(User $orig)
+    {
+        if (is_callable($orig)) {
+            $this->orig = $orig;
+        } else {
+            $this->orig = function () use ($orig) {
+                return $orig;
+            };
+        }
+    }
+
+    /**
+     * Информация о пользователе
+     *
+     * @return array
+     */
+    public function info(): array
+    {
+        return $this->orig->call($this)->info();
+    }
+}
+```
+
+Пользователь по логину (в Java это было бы реализовано вторым конструктором):
+```php
+/**
+ * Пользователь по Login-у
+ */
+class UserByLogin extends UserWrap
+{
+    /**
+     * Конструктор.
+     *
+     * @param string $login логин пользователя
+     * @param PDO $db база
+     */
+    public function __construct(string $login, $db = null)
+    {
+        parent::__construct(function () use ($login, $db) {
+            $db = $db ?? getDB();
+
+            $userId = $db->query(
+                "SELECT id FROM users WHERE login=" . $db->quote($login)
+            )->fetchColumn();
+
+            if ($userId === false) {
+                throw new \Exception("Не существует пользователя с login = " . $login);
+            }
+
+            return new UserStd($userId, $db);
+        });
+    }
+}
+```
+
 
 ## Патерны
 
